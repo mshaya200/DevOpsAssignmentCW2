@@ -20,7 +20,7 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
-            sh 'ssh'
+            sh 'ssh -i "ShayanKey.pem" ubuntu@ec2-34-233-69-104.compute-1.amazonaws.com'
         }
     }
 
