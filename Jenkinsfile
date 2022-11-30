@@ -34,4 +34,10 @@ node {
             app.push("latest")
         }
     }
+    
+    stage('Remote SSH') {
+        withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: 'ShayanKey', usernameVariable: 'ubuntu')]) {
+        sh 'pwd'
+}
+  }
 }
