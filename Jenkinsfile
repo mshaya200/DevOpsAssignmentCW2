@@ -20,7 +20,7 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
-            sh "pwd"
+            sh "docker build . -t server.js"
         }
     }
 
