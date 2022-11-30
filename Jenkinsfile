@@ -20,7 +20,6 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
-            sh 'ssh -i "ShayanKey.pem" ubuntu@ec2-34-233-69-104.compute-1.amazonaws.com'
         }
     }
 
@@ -34,7 +33,7 @@ node {
             app.push("latest")
         }
     }
-    
+
     stage('Remote SSH') {
         withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: 'ShayanKey', usernameVariable: 'ubuntu')]) {
         sh 'pwd'
