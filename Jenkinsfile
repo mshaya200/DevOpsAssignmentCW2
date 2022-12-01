@@ -38,5 +38,6 @@ node {
         withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: 'ShayanKey', usernameVariable: 'ubuntu')]) {
         sh 'pwd'
         sh 'whoami'
+}
   }
 }
