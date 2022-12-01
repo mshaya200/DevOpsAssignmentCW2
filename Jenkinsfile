@@ -37,7 +37,8 @@ node {
     stage('Remote SSH') {
         withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: 'ShayanKey', usernameVariable: 'ubuntu')]) {
         sh 'pwd'
-        sh 'ssh -i $ShayanKey ubuntu@34.233.69.104 pwd'
+        sh 'cd ..'
+        sh 'pwd'
 }
   }
 }
