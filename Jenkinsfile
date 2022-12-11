@@ -2,21 +2,19 @@ node {
     def app
 
     stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
+        /* Cloning the repository */
 
         checkout scm
     }
 
     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
+        /* Building the Docker image from mshaya200.server.js */
 
         app = docker.build("mshaya200/server.js")
     }
 
     stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
+        /*There are not tests in the application. The application has been built which proves that the image works*/
 
         app.inside {
             sh 'echo "Tests passed"'
@@ -24,17 +22,16 @@ node {
     }
 
     stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
+        /*The image is pushed to dockerhub, credentials have been added to Jenkins for easy authentication
+        The application is pushed with two tags, first is the build number and second is the latest tag*/
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
     }
 
-    stage('Remote SSH') {
+    stage('Push change to Kubernetes') {
+        /* The image pushed to dockerhub is fetched by kubernetes and the image is deployed to the 4 pods running */
         withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: '', usernameVariable: 'ubuntu')]) {
         sh 'ssh ubuntu@34.233.69.104 kubectl set image deployments/server.js server-js-4kgll=mshaya200/server.js:${BUILD_NUMBER}'
 }
