@@ -36,7 +36,7 @@ node {
 
     stage('Remote SSH') {
         withCredentials([sshUserPrivateKey(credentialsId: 'sshkey', keyFileVariable: 'ShayanKey', passphraseVariable: '', usernameVariable: 'ubuntu')]) {
-        sh 'ssh ubuntu@34.233.69.104 ls -a'
+        sh 'ssh ubuntu@34.233.69.104 kubectl set image deployments/server.js server-js-4kgll=mshaya200/server.js:env.BUILD_NUMBER'
 }
   }
 }
